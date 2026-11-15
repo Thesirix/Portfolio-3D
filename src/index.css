@@ -1,0 +1,711 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   Police (hébergée sur le site, sous-ensemble latin, graisses 400 à 800)
+   ========================================================================== */
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/fonts/montserrat-latin.woff2") format("woff2");
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+  /* Le décor parallaxe (2000 px) dépasse de l'écran : sur téléphone, seule la règle
+     posée sur html empêche la page de défiler vers la droite */
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  font-family: "Montserrat", system-ui, sans-serif;
+  overflow-x: clip;
+}
+
+/* La cible d'une ancre ne passe pas sous le haut de l'écran */
+[id] {
+  scroll-margin-top: 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* ==========================================================================
+   Scrollbar
+   ========================================================================== */
+
+::-webkit-scrollbar-track {
+  background-color: #0d3056;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #686868;
+  border: 2px solid #0d3056;
+}
+
+/* Grands écrans : scrollbar plus large, avec boutons et dégradé */
+@media (min-width: 1024px) {
+  ::-webkit-scrollbar {
+    width: 15px;
+  }
+
+  /* Boutons haut / bas : petit triangle cyan en haut, magenta en bas (8 x 4 px),
+     dessinés dans le bouton lui-même (rien ne peut se poser sur la barre de la page) */
+  ::-webkit-scrollbar-button:vertical:decrement,
+  ::-webkit-scrollbar-button:vertical:increment {
+    display: block;
+    width: 15px;
+    height: 12px;
+    background-color: #0d3056;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 8px 4px;
+  }
+
+  ::-webkit-scrollbar-button:vertical:decrement {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 4'%3E%3Cpath d='M4 0 8 4H0z' fill='%231cf0e3'/%3E%3C/svg%3E");
+  }
+
+  ::-webkit-scrollbar-button:vertical:increment {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 4'%3E%3Cpath d='M0 0h8L4 4z' fill='%23ff00ff'/%3E%3C/svg%3E");
+  }
+
+  /* une seule flèche à chaque bout */
+  ::-webkit-scrollbar-button:vertical:start:increment,
+  ::-webkit-scrollbar-button:vertical:end:decrement {
+    display: none;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-image:
+      linear-gradient(217deg, rgba(71, 71, 71, 0.8), rgba(71, 71, 71, 0) 50%, rgba(104, 104, 104, 0.8) 100%),
+      linear-gradient(127deg, rgba(82, 82, 82, 0.8), rgba(82, 82, 82, 0) 50%, rgba(104, 104, 104, 0.8) 100%),
+      linear-gradient(336deg, rgba(78, 78, 78, 0.8), rgba(78, 78, 78, 0) 50%, rgba(104, 104, 104, 0.8) 100%);
+  }
+}
+
+/* ==========================================================================
+   Menu
+   ========================================================================== */
+
+.navbar {
+  position: fixed;
+  top: clamp(1.25rem, 3vw, 2.5rem);
+  right: clamp(1rem, 2.5vw, 2.5rem);
+  z-index: 40;
+}
+
+.navbar__list {
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.navbar__link {
+  position: relative;
+  display: block;
+  padding-right: 1.6rem;
+  font-weight: 700;
+  font-size: clamp(1.05rem, 1.25vw, 1.5rem);
+  color: rgb(100 116 139);
+  text-align: right;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.navbar__link:hover,
+.navbar__link.is-active {
+  color: #fff;
+}
+
+/* petit trait bleu à droite du lien actif */
+.navbar__link.is-active::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 0.5rem;
+  height: 1.6em;
+  translate: 0 -50%;
+  background: #1689c8;
+}
+
+.navbar__toggle {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(13 48 86 / 0.6);
+  cursor: pointer;
+}
+
+.navbar__mobile {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 160px;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid rgb(148 163 184);
+  border-radius: 0.5rem;
+  background: rgb(13 48 86 / 0.92);
+  backdrop-filter: blur(6px);
+}
+
+.navbar__mobile[hidden] {
+  display: none;
+}
+
+.navbar__mobile ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.navbar__mobile a {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+@media (min-width: 768px) {
+  .navbar__list {
+    display: flex;
+  }
+  .navbar__toggle,
+  .navbar__mobile {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   Hero : parallaxe
+   Toutes les couches sont empilées dans la même case de grille. Le dessin fait
+   2000 px de large, centré : sur un petit écran on en voit le milieu.
+   --ground : distance entre le haut du Hero et la ligne du sol (cratère),
+   où est posé l'astronaute.
+   ========================================================================== */
+
+.parallax {
+  --ground: clamp(460px, 76svh, 960px);
+  --crater-surface: 265px; /* ligne du sol dans 5Crater.svg affiché à 2000 px */
+  position: relative;
+  display: grid;
+  grid-template-areas: "stack";
+  width: 2000px;
+  left: 50%;
+  translate: -50% 0;
+  height: calc(var(--ground) + 300px);
+  overflow: clip;
+}
+
+.parallax > * {
+  grid-area: stack;
+}
+
+/* <picture> ne fait que choisir le format : son image est placée dans la grille */
+.parallax > picture {
+  display: contents;
+}
+
+.parallax__layer {
+  grid-area: stack;
+  width: 100%;
+  height: auto;
+  align-self: start;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Défilement : chaque couche descend à sa vitesse (navigateurs compatibles) */
+@supports (animation-timeline: scroll()) {
+  .parallax__stars,
+  .parallax__planets,
+  .parallax__sun,
+  .parallax__mountain,
+  .parallax__content {
+    animation: parallax linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 100vh;
+  }
+}
+
+@keyframes parallax {
+  to {
+    transform: translateY(calc(var(--parallax-speed) * 1vh));
+  }
+}
+
+.parallax__stars {
+  --parallax-speed: 45;
+  z-index: 1;
+}
+
+.parallax__planets {
+  --parallax-speed: 35;
+  z-index: 2;
+}
+
+/* le soleil est dessiné à droite d'un calque pleine largeur */
+.parallax__sun {
+  --parallax-speed: 30;
+  z-index: 3;
+  margin-top: -70px;
+  scale: 0.9;
+  transform-origin: 100% 0;
+}
+
+/* même écart entre les montagnes et le sol que dans le dessin d'origine */
+.parallax__mountain {
+  --parallax-speed: 15;
+  z-index: 4;
+  margin-top: calc(var(--ground) - 940px);
+}
+
+.parallax__crater {
+  z-index: 6;
+  margin-top: calc(var(--ground) - var(--crater-surface));
+}
+
+/* ==========================================================================
+   Hero : textes
+   ========================================================================== */
+
+.hero {
+  --parallax-speed: 22;
+  z-index: 5;
+  justify-self: center;
+  align-self: start;
+  width: min(100vw, 1800px);
+  padding: clamp(5.5rem, 14svh, 11rem) clamp(1.25rem, 6vw, 7rem) 0;
+  display: grid;
+  gap: clamp(1rem, 3vh, 2.5rem);
+  color: #fff;
+}
+
+@media (min-width: 768px) {
+  .hero {
+    padding-right: clamp(10rem, 16vw, 18rem); /* place pour le menu */
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    column-gap: clamp(2rem, 6vw, 8rem);
+  }
+}
+
+.hero__name {
+  margin: 0;
+  font-weight: 700;
+  font-size: clamp(2.6rem, 13vw, 6.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+.hypertext {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.6ch;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+  cursor: default;
+}
+
+/* un mot par ligne */
+.hypertext {
+  flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+  .hero__name {
+    font-size: clamp(5rem, 8.6vw, 10.5rem);
+  }
+}
+
+.hypertext__word {
+  white-space: pre;
+}
+
+.hero__position {
+  position: relative;
+  margin: clamp(0.4rem, 1.5vh, 1rem) 0 0;
+  height: 1.3em;
+  font-weight: 500;
+  font-size: clamp(1.15rem, 3.2vw, 3.6rem);
+  perspective: 600px;
+}
+
+.hero__position-line {
+  position: absolute;
+  inset: 0 auto auto 0.1em;
+  display: flex;
+  white-space: nowrap;
+}
+
+.hero__position-line > span {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.hero__tagline {
+  margin: 0;
+  max-width: 15em;
+  font-weight: 700;
+  font-size: clamp(1.15rem, 2.3vw, 2.9rem);
+  line-height: 1.3;
+}
+
+@media (min-width: 1024px) {
+  .hero__tagline {
+    justify-self: end;
+    margin-top: clamp(1rem, 6vh, 5rem);
+  }
+}
+
+/* Texte lumineux : dégradé qui défile + halo fixe (pas d'ombre animée, trop
+   coûteuse à redessiner à chaque image) */
+.streaky-glow {
+  color: transparent;
+  background: linear-gradient(90deg, #fff, rgba(255, 200, 0, 0.68), #0ff, #fff);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.35));
+  animation: streaky-move 8s linear infinite;
+}
+
+@keyframes streaky-move {
+  to {
+    background-position: 200% 200%;
+  }
+}
+
+/* ==========================================================================
+   Hero : astronaute 3D
+   Le canvas a un format fixe ; le sol du modèle tombe à --sm-ground de sa
+   hauteur (GROUND_FRACTION dans src/three/spaceman.js), posé sur --ground.
+   ========================================================================== */
+
+.spaceman {
+  --sm-ground: 0.76;
+  --sm-width: clamp(300px, 46vw, 760px);
+  /* le rocher et le feu sont enfoncés dans le sol violet du cratère,
+     sous sa ligne de crête (sinon ils ont l'air de flotter devant les montagnes) */
+  --sm-sink: clamp(45px, 9svh, 100px);
+  z-index: 7;
+  justify-self: center;
+  align-self: start;
+  position: relative;
+  width: var(--sm-width);
+  aspect-ratio: 5 / 4;
+  margin-top: calc(var(--ground) + var(--sm-sink) - var(--sm-width) * 0.8 * var(--sm-ground));
+  translate: 4% 0;
+  pointer-events: none;
+}
+
+/* Image fixe (rendu du modèle), remplacée en fondu par la 3D quand elle est prête */
+.spaceman__poster,
+.spaceman__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.spaceman__poster {
+  transition: opacity 0.2s linear 0.1s; /* disparaît une fois la 3D affichée par-dessus */
+  user-select: none;
+}
+
+.spaceman__canvas {
+  opacity: 0;
+  transition: opacity 0.15s linear;
+}
+
+.spaceman[data-ready="true"] .spaceman__canvas {
+  opacity: 1;
+}
+
+.spaceman[data-ready="true"] .spaceman__poster {
+  opacity: 0;
+}
+
+.spaceman__canvas canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: auto;
+}
+
+@media (max-width: 767px) {
+  .spaceman {
+    --sm-width: min(125vw, 560px);
+    translate: 2% 0;
+  }
+}
+
+/* ==========================================================================
+   Sections
+   ========================================================================== */
+
+.section {
+  position: relative;
+  z-index: 0;
+  width: min(100%, 1600px);
+  margin-inline: auto;
+  padding: clamp(3rem, 8vh, 7rem) clamp(1.25rem, 6vw, 7rem);
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding-right: clamp(10rem, 14vw, 16rem); /* place pour le menu */
+  }
+}
+
+.section-title {
+  margin: 0;
+  font-size: clamp(2.5rem, 6vw, 5.5rem);
+  line-height: 1.1;
+}
+
+/* ==========================================================================
+   Apparitions au scroll (composant Reveal)
+   ========================================================================== */
+
+.reveal {
+  opacity: 0;
+  transition:
+    opacity 0.7s ease,
+    transform 0.9s cubic-bezier(0.2, 0.9, 0.25, 1.15);
+}
+
+.reveal--up {
+  transform: translateY(60px);
+}
+
+.reveal--down {
+  transform: translateY(-40px);
+}
+
+.reveal[data-visible="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+.fade-in-up {
+  animation: fade-in-up 0.35s ease;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   Formulaire : bouton d'envoi
+   ========================================================================== */
+
+.send-button {
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0.75rem;
+  border: 1px solid #000;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.send-button.is-sent {
+  cursor: default;
+}
+
+.send-button__label {
+  display: inline-flex;
+  align-items: center;
+  animation: send-in 0.3s ease;
+}
+
+.send-button:not(.is-sent):hover .send-button__label svg {
+  transform: translateX(4px);
+}
+
+.send-button__label svg {
+  transition: transform 0.3s;
+}
+
+@keyframes send-in {
+  from {
+    opacity: 0;
+    transform: translateY(-1.5em);
+  }
+}
+
+/* ==========================================================================
+   Barre de liens (Dock)
+   ========================================================================== */
+
+.dock {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  width: max-content;
+  max-width: 100%;
+  height: 58px;
+  margin-inline: auto;
+  padding: 0.5rem;
+  border-radius: 0.75rem;
+  background: #0d3056;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  backdrop-filter: blur(12px);
+}
+
+.dock__icon {
+  --size: 48px;
+  display: flex;
+  width: var(--size);
+  height: var(--size);
+  padding: 0.75rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  /* comme à l'origine : ronds foncés en thème clair, clairs en thème sombre */
+  background: rgb(0 0 0 / 0.25);
+  translate: 0 0.25rem;
+  transition: width 0.15s ease-out, height 0.15s ease-out;
+}
+
+@media (prefers-color-scheme: dark) {
+  .dock__icon {
+    background: rgb(255 255 255 / 0.25);
+  }
+}
+
+@media (max-width: 400px) {
+  .dock__icon {
+    --size: 42px !important;
+    padding: 0.6rem;
+  }
+}
+
+/* ==========================================================================
+   Notifications
+   ========================================================================== */
+
+.toasts {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: calc(100vw - 2rem);
+}
+
+.toast {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 16rem;
+  padding: 0.9rem 1rem;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0.5rem;
+  background: #121212;
+  color: #fff;
+  font: inherit;
+  font-size: 0.95rem;
+  text-align: left;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.4);
+  cursor: pointer;
+  animation: toast-in 0.3s ease;
+}
+
+.toast__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  font-weight: 800;
+  color: #121212;
+}
+
+.toast--success .toast__icon,
+.toast--success .toast__bar {
+  background: #07bc0c;
+}
+
+.toast--error .toast__icon,
+.toast--error .toast__bar {
+  background: #e74c3c;
+}
+
+.toast__bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 4px;
+  width: 100%;
+  transform-origin: left;
+  animation: toast-bar linear both;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(-2rem);
+  }
+}
+
+@keyframes toast-bar {
+  to {
+    transform: scaleX(0);
+  }
+}
