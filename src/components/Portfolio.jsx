@@ -40,8 +40,8 @@ const PreviewVideo = ({ video, name }) => {
       playsInline
       preload="none"
       poster={video.poster}
-      width="1280"
-      height="592"
+      width="960"
+      height="600"
       aria-label={`Aperçu du projet ${name}`}
       className="w-full h-auto object-cover rounded-3xl bg-tertiary"
     >
