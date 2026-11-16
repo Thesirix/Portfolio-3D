@@ -1,22 +1,18 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <link rel="canonical" href="https://renaudmercier.com/" />
+    <link rel="canonical" href="https://thesirix.github.io/Portfolio-3D/" />
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="%BASE_URL%favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="%BASE_URL%favicon-48.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="%BASE_URL%favicon-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="%BASE_URL%apple-touch-icon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#1f1154" />
     <meta
       name="description"
       content="Portfolio de Renaud, développeur web spécialisé en React, Node.js, Express et Tailwind CSS."
-    />
-    <meta
-      name="google-site-verification"
-      content="JDuD_jEB2KLg48YqeZUSbKfkg_gwei_5Efn0uemJTm8"
     />
 
     <title>Renaud's Portfolio</title>
@@ -27,8 +23,8 @@
       content="Portfolio de Renaud, développeur web spécialisé en React, Node.js, Express et Tailwind CSS."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://renaudmercier.com/" />
-    <meta property="og:image" content="https://renaudmercier.com/apc.webp" />
+    <meta property="og:url" content="https://thesirix.github.io/Portfolio-3D/" />
+    <meta property="og:image" content="https://thesirix.github.io/Portfolio-3D/apc.webp" />
     <meta property="og:image:type" content="image/webp" />
     <meta property="og:image:width" content="1915" />
     <meta property="og:image:height" content="903" />
@@ -41,18 +37,12 @@
     </style>
 
     <!-- Ce qui s'affiche en premier : police et fond étoilé du Hero -->
-    <link rel="preload" href="/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/parallax/1Stars.webp" as="image" />
-    <link rel="preload" href="/models/spaceman.glb" as="fetch" type="model/gltf-binary" crossorigin="anonymous" />
-    <link rel="preload" as="image" fetchpriority="high" imagesrcset="/spaceman-poster-600.webp 600w, /spaceman-poster-900.webp 900w, /spaceman-poster-1140.webp 1140w" imagesizes="(max-width: 767px) min(125vw, 560px), clamp(300px, 46vw, 760px)" />
+    <link rel="preload" href="%BASE_URL%fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="%BASE_URL%parallax/1Stars.webp" as="image" />
+    <link rel="preload" href="%BASE_URL%models/spaceman.glb" as="fetch" type="model/gltf-binary" crossorigin="anonymous" />
+    <link rel="preload" as="image" fetchpriority="high" imagesrcset="%BASE_URL%spaceman-poster-600.webp 600w, %BASE_URL%spaceman-poster-900.webp 900w, %BASE_URL%spaceman-poster-1140.webp 1140w" imagesizes="(max-width: 767px) min(125vw, 560px), clamp(300px, 46vw, 760px)" />
   </head>
   <body>
-    <!-- Formulaire invisible : permet à Netlify de détecter le formulaire de contact au déploiement -->
-    <form name="contact" data-netlify="true" hidden>
-      <input type="text" name="name" />
-      <input type="email" name="email" />
-      <textarea name="message"></textarea>
-    </form>
 
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>

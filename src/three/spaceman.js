@@ -7,7 +7,7 @@
 //
 // Ce fichier n'importe pas three.js : il reste minuscule. Il s'occupe de ce qui
 // touche à la page : taille du canvas, visibilité, souris, clic.
-const MODEL_URL = "/models/spaceman.glb";
+const MODEL_URL = import.meta.env.BASE_URL + "models/spaceman.glb";
 
 const canUseWorker = () =>
   typeof Worker !== "undefined" &&

@@ -38,13 +38,14 @@ const Contact = () => {
 
     setSent(true);
     try {
-      // Envoi via Netlify Forms (formulaire "contact" déclaré dans index.html)
-      const response = await fetch("/", {
+      // Envoi par Netlify Forms, sur le site renaudmercier.com (formulaire "contact").
+      // La réponse d'un autre site est illisible (mode no-cors) : un envoi parti sans erreur réseau compte comme réussi.
+      await fetch("https://renaudmercier.com/", {
         method: "POST",
+        mode: "no-cors",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({ "form-name": "contact", ...form }).toString(),
       });
-      if (!response.ok) throw new Error(response.statusText);
       notifySuccess("Email envoyé avec succès !");
       setForm({ name: "", email: "", message: "" });
     } catch {

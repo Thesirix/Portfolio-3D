@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
+const B = import.meta.env.BASE_URL;
+
 // Appareils où l'on garde l'image fixe (pas de 3D) : économie de données,
 // très peu de mémoire ou de cœurs, ou « réduire les animations » activé.
 function prefersStatic() {
@@ -52,8 +54,8 @@ const SpacemanCanvas = () => {
     <div className="spaceman" data-ready={ready}>
       <img
         className="spaceman__poster"
-        src="/spaceman-poster-900.webp"
-        srcSet="/spaceman-poster-600.webp 600w, /spaceman-poster-900.webp 900w, /spaceman-poster-1140.webp 1140w"
+        src={`${B}spaceman-poster-900.webp`}
+        srcSet={`${B}spaceman-poster-600.webp 600w, ${B}spaceman-poster-900.webp 900w, ${B}spaceman-poster-1140.webp 1140w`}
         sizes="(max-width: 767px) min(125vw, 560px), clamp(300px, 46vw, 760px)"
         alt="Astronaute assis sur un rocher qui fait griller un marshmallow au-dessus d'un feu de camp"
         width="1140"

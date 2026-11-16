@@ -1,6 +1,8 @@
-# Portfolio de Renaud Mercier
+# Portfolio 3D
 
-Site : [renaudmercier.com](https://renaudmercier.com/). React, Tailwind CSS, Vite, et un astronaute 3D en three.js dans le Hero.
+Démo : [thesirix.github.io/Portfolio-3D](https://thesirix.github.io/Portfolio-3D/). Portfolio de Renaud Mercier en React, Tailwind CSS, Vite, avec un astronaute 3D en three.js dans le Hero.
+
+Le site principal est [renaudmercier.com](https://renaudmercier.com/).
 
 ## Lancer le projet
 
@@ -11,7 +13,7 @@ npm run build     # version de production dans dist/
 npm run preview   # tester la version de production
 ```
 
-Node 20.19 ou plus récent (Vite 8). Déploiement Netlify : réglages dans `netlify.toml`, formulaire de contact géré par Netlify Forms (déclaré dans `index.html`).
+Node 20.19 ou plus récent (Vite 8). Déploiement sur GitHub Pages à chaque push sur `main` (`.github/workflows/pages.yml`, site servi sous `/Portfolio-3D/`, voir `base` dans `vite.config.js`). Le formulaire de contact envoie les messages au formulaire Netlify de renaudmercier.com.
 
 ## Organisation
 
@@ -29,7 +31,6 @@ Node 20.19 ou plus récent (Vite 8). Déploiement Netlify : réglages dans `netl
 | `public/models/spaceman.glb` | Le modèle 3D compressé |
 | `public/spaceman-poster-*.webp` | Image fixe de l'astronaute, affichée avant la 3D |
 | `public/apc.webp` | Image d'aperçu quand on partage le lien du site |
-| `public/app-ads.txt`, `public/ads.txt` | Vérification Google (AdMob pour l'appli mobile) |
 | `blender/spaceman.py` | **Source du modèle 3D** (script Blender) |
 
 ## L'astronaute 3D
